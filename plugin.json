@@ -1,0 +1,14 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "mails",
+  "version": "0.1.0",
+  "description": "Email for AI agents: send, receive and reply through mails.ai, act on inbound mail safely, and keep sending within the rules.",
+  "author": {
+    "name": "the mails.ai team",
+    "email": "support@mails.ai",
+    "url": "https://mails.ai"
+  },
+  "homepage": "https://mails.ai/docs",
+  "license": "MIT",
+  "keywords": ["email", "agents", "inbox", "webhooks", "mcp", "transactional email"]
+}
