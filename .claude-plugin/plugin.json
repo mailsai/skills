@@ -7,6 +7,7 @@
     "url": "https://mails.ai"
   },
   "homepage": "https://mails.ai/docs",
+  "privacyPolicyUrl": "https://mails.ai/privacy",
   "repository": "https://github.com/mailsai/skills",
   "license": "MIT",
   "keywords": [
