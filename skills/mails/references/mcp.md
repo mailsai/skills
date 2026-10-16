@@ -237,6 +237,13 @@ lists them all. Four operations are not tools: the event stream (`mails_events_l
 `since` reads the same events), the billing portal, and the two unsubscribe routes a
 recipient's link opens.
 
+`mails_wait_for_email` is named for what an agent does with it: after the agent asks a service
+for a sign-up code, a magic link or a password reset, it waits up to 50 seconds for that email
+and returns it with its `codes` and `links`, as [receiving.md](receiving.md) shows. Give it
+`to`, the address the agent signed up with (a plus address of its `receiving_address`, for
+example), to take only mail sent there. It is sent once: a wait cut off by the network is not
+repeated by the tool.
+
 A client is shown only the tools its connection may call. A tool is left out when it needs
 a scope the key or sign-in lacks, works only with a test key on a live connection or only
 with a live key on a test connection, is closed to connected apps, or covers the whole

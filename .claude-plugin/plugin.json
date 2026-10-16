@@ -1,0 +1,20 @@
+{
+  "name": "mails",
+  "description": "Email for AI agents: send, receive and reply through mails.ai, act on inbound mail safely, and keep sending within the rules.",
+  "author": {
+    "name": "the mails.ai team",
+    "email": "support@mails.ai",
+    "url": "https://mails.ai"
+  },
+  "homepage": "https://mails.ai/docs",
+  "repository": "https://github.com/mailsai/skills",
+  "license": "MIT",
+  "keywords": [
+    "email",
+    "agents",
+    "inbox",
+    "webhooks",
+    "mcp",
+    "transactional email"
+  ]
+}

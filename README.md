@@ -15,6 +15,23 @@ Each skill is a folder in the [Agent Skills](https://agentskills.io/specificatio
 
 ## Install
 
+As a Claude Code plugin, which brings the three skills and the hosted mails.ai MCP server
+together. In Claude Code 2.1.275 or later:
+
+```
+/plugin install mails --marketplace mailsai/skills
+```
+
+In older versions, add the marketplace first, then install from it:
+
+```
+/plugin marketplace add mailsai/skills
+/plugin install mails@mailsai
+```
+
+Then type `/mcp` and choose mails to sign in to mails.ai in your browser. From a terminal (Claude
+Code 2.1.292 or later), the same is `claude plugin install mails --marketplace mailsai/skills`.
+
 With the [skills](https://github.com/vercel-labs/skills) command:
 
 ```bash
@@ -50,10 +67,16 @@ This folder is also an [Agent Plugin](https://agent-plugins.org), in version 1.0
 format: `plugin.json` describes it, `skills/` holds the skills, and `mcp.json` registers the
 hosted mails.ai MCP server at `https://api.mails.ai/mcp`.
 
-`mcp.json` holds only the server's address, never a key. A client that installs the plugin
-connects to `https://api.mails.ai/mcp`, gets a `401` that points it to mails.ai's sign-in,
-and opens your browser: sign in to mails.ai, choose the workspace and press Allow. In Claude
-Code, type `/mcp` and choose mails to sign in. Each computer signs in on its own; on a
+It is also a Claude Code plugin and its own marketplace: `.claude-plugin/plugin.json` describes
+the plugin, `.claude-plugin/marketplace.json` lists it, and `.mcp.json` registers the same server
+in Claude Code's format. The plugin has no `version`, so every commit to this repository is a
+new version: `claude plugin update mails@mailsai` fetches the latest, and so does turning on
+auto-update for the mailsai marketplace under `/plugin`.
+
+`mcp.json` and `.mcp.json` hold only the server's address, never a key. A client that installs
+the plugin connects to `https://api.mails.ai/mcp`, gets a `401` that points it to mails.ai's
+sign-in, and opens your browser: sign in to mails.ai, choose the workspace and press Allow. In
+Claude Code, type `/mcp` and choose mails to sign in. Each computer signs in on its own; on a
 server or in CI, add the server with an API key instead. Both are in
 [skills/mails/references/mcp.md](skills/mails/references/mcp.md).
 

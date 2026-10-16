@@ -1,0 +1,15 @@
+{
+  "name": "mailsai",
+  "description": "The mails.ai plugin for Claude Code: skills for sending, receiving and replying to email as an agent, and the hosted mails.ai MCP server.",
+  "owner": {
+    "name": "the mails.ai team",
+    "email": "support@mails.ai"
+  },
+  "plugins": [
+    {
+      "name": "mails",
+      "source": "./",
+      "description": "Email for AI agents: send, receive and reply through mails.ai, act on inbound mail safely, and keep sending within the rules."
+    }
+  ]
+}

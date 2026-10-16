@@ -37,6 +37,7 @@ The ones agents use most:
 | `client.cancel_message(id)`, `client.reschedule_message(id, scheduled_at)` | `POST /v1/messages/{id}/cancel`, `PATCH /v1/messages/{id}` |
 | `client.get_raw_message(id)` | `GET /v1/messages/{id}/raw` |
 | `client.list_received(...)`, `client.get_received(id)` | `GET /v1/messages/received`, `GET /v1/messages/received/{id}` |
+| `client.wait_for_received(from_=..., to=..., has=..., since=..., timeout=...)`, the newest match as soon as it arrives, with its codes and links | `GET /v1/messages/received/wait` |
 | `client.list_attachments(id)`, `client.download_attachment(id, attachment_id)` | `GET /v1/messages/received/{id}/attachments`, `GET /v1/messages/received/{id}/attachments/{attachment_id}` |
 | `client.search(q, ...)` | `GET /v1/search` |
 | `client.list_threads(...)`, `client.get_thread(id)`, `client.update_thread(id, status=...)`, `client.delete_thread(id)` | `GET /v1/threads`, `GET /v1/threads/{id}`, `PATCH /v1/threads/{id}`, `DELETE /v1/threads/{id}` |

@@ -14,6 +14,20 @@
   pass 64 characters before the `@`, the domain is cut short and ends in `_` and 10
   characters of a hash, so read the address from the API rather than building it.
 
+- Mail to any plus address of the `receiving_address` reaches the agent too: add `+` and
+  anything before the `@`, such as `support.acme+github@in.mails.ai`. So one agent can give
+  each service, or each test run, an address of its own, and each received message says
+  which address it came to in `delivered_to`. A workspace may receive mail at 20 different
+  plus addresses a day on Free, 1,000 on Pro and 10,000 on Scale. Past that, mail to a new
+  one keeps only a record (`over_limit: "plus_address_limit"`) and raises
+  `message.received.over_limit`; the addresses already used that day keep working. The tag
+  goes at the end, just before the `@`: one written inside the address is refused when it could
+  be meant for another agent. The part before the `@` holds at most 64 characters, so a long
+  receiving address leaves less room for a tag. A sign-in code, or a verify, sign-in or
+  password-reset link, from a service such as Google, Microsoft, Apple, a payment app or a bank
+  never reaches a plus address: such mail keeps only a record (`over_limit: "held_code"`), and
+  no wait finds it. Sign up for those services at the agent's own address.
+
 - The agent's `email` (`support@acme.mails.ai`) names it in the API. Recipients see its mail
   come from an address under `send.mails.ai`, such as `support.acme@send.mails.ai`, with
   `support` as the display name and the `receiving_address` as Reply-To. Mail sent to
@@ -63,6 +77,41 @@ trash or sent to the inbox. Both are in `GET /v1/events` and the live stream. A 
 them only when it names them. `thread.created` gives the subject only of mail the injection
 scan read and did not quarantine; otherwise its `subject` is `null`. Mail made with
 `POST /v1/test/inbound` follows the same rule, so a test can see both.
+
+## Sign-up codes and links
+
+An agent that signs up for a service, signs in to one or resets a password gets a code or a
+link by email. A received message carries them already picked out, by fixed rules with no AI
+involved: `codes`, each a `value` with the likeliest first, and `links`, each a `url` and a
+`kind` (`verify`, `sign_in`, `reset_password`, `unsubscribe` or `other`) with the action links
+first. `GET /v1/messages/received` and `GET /v1/messages/received/{id}` return both.
+
+`GET /v1/messages/received/wait` answers as soon as the mail arrives, so the agent needs no
+polling loop or webhook for it:
+
+```bash
+curl "https://api.mails.ai/v1/messages/received/wait?from=github.com&has=code&timeout=50" \
+  -H "Authorization: Bearer $MAILS_API_KEY"
+```
+
+- `from` is an address or a domain, and a domain includes its subdomains: `github.com` takes
+  `mail.github.com`, never `github.com.evil.example`. It matches the From header, so check
+  that the message's `dmarc` is `pass` before you trust who sent it.
+- `has=code` waits for a message with a code, and `has=link` for one with a `verify`,
+  `sign_in` or `reset_password` link.
+- `to` takes only mail sent to that address, such as the plus address the agent gave this
+  service (`to=support.acme%2Bgithub%40in.mails.ai`: write the `+` as `%2B`). The SDKs build
+  one with `plusAddress()` (TypeScript) and `plus_address()` (Python), and encode it.
+  When the newest mail sent to `to` came past the plan's plus addresses a day, only a record
+  of it was kept, so the call answers 402 `plan_limit_exceeded` at once instead of waiting.
+- `since` is when the agent asked the service to send, so an older code never answers.
+  Without it the call looks back 5 minutes.
+- `timeout` is 0 to 50 seconds (default 30). Nothing in time is not an error: `message` is
+  `null` and `timed_out` is `true`.
+- Mail judged forged (`auth_failed`) and quarantined mail never match.
+- The MCP tool is `mails_wait_for_email`, the CLI command `mails receiving wait`, and the SDK
+  methods `received.wait()` (TypeScript) and `wait_for_received()` (Python). The `from`, `to`
+  and `since` filters work on `GET /v1/messages/received` too.
 
 ## Getting events
 
@@ -216,7 +265,7 @@ mails.ai sends the reply to the message's Reply-To, or to its `from` address whe
 none (never to `envelope_from`), sets the threading headers and adds the reply to the thread.
 With `reply_all` it also copies the message's other recipients, never the agent itself.
 Mail kept over the monthly limit or while the subscription is inactive keeps its Reply-To and
-other recipients. A record kept past the hourly or daily rate has neither: a reply to it goes
+other recipients. A record kept past the hourly or daily rate, or the plan's plus addresses a day, has neither: a reply to it goes
 to its `from` address, and `reply_all` adds no one.
 
 A live key cannot reply to test mail, such as mail from `POST /v1/test/inbound`: it answers

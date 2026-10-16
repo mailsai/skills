@@ -63,7 +63,7 @@ Webhooks, `GET /v1/events` and the live stream all deliver the same envelope. Th
 | Field | Meaning |
 |---|---|
 | `id` | the event id. Use it to skip repeats and to build idempotency keys |
-| `type` | `message.received`, `reply.received` or `message.received.unauthenticated` for mail. Mail that arrives over a limit is `message.received.over_limit` instead, and its `data` has only `agent_id`, `agent_email`, `thread_id`, `source_message_id`, `from.address`, `envelope_from`, `received_at`, `over_limit` (`quota_exceeded`, `subscription_inactive` or `rate_limited`) and `content_kept` (`false` when only the record was kept) |
+| `type` | `message.received`, `reply.received` or `message.received.unauthenticated` for mail. Mail that arrives over a limit is `message.received.over_limit` instead, and its `data` has only `agent_id`, `agent_email`, `thread_id`, `source_message_id`, `from.address`, `envelope_from`, `received_at`, `over_limit` (`quota_exceeded`, `subscription_inactive`, `rate_limited`, `plus_address_limit` or `held_code`) and `content_kept` (`false` when only the record was kept) |
 | `created_at` | when the event was made, UTC. Use it as `since` when polling |
 | `test_mode` | `true` for events from a test key, and for the automatic reply from `reply@test.mails.ai` to a test-key send |
 | `injection_score` | 0 to 1: how likely the text is a prompt injection |

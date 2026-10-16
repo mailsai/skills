@@ -37,6 +37,7 @@ The ones agents use most:
 | `mails.messages.cancel(id)`, `mails.messages.reschedule(id, at)` | `POST /v1/messages/{id}/cancel`, `PATCH /v1/messages/{id}` |
 | `mails.messages.raw(id)` | `GET /v1/messages/{id}/raw`, the email as text |
 | `mails.received.list(...)`, `mails.received.get(id)` | `GET /v1/messages/received`, `GET /v1/messages/received/{id}` |
+| `mails.received.wait({ from, to, has, since, timeout })`, the newest match as soon as it arrives, with its codes and links | `GET /v1/messages/received/wait` |
 | `mails.received.attachments.list(id)`, `mails.received.attachments.download(id, attachment_id)` | `GET /v1/messages/received/{id}/attachments`, `GET /v1/messages/received/{id}/attachments/{attachment_id}`; `download` returns the file's bytes as a `Uint8Array` |
 | `mails.search({ q })` | `GET /v1/search` |
 | `mails.threads.list(...)`, `.get(id)`, `.update(id, { status, labels })`, `.remove(id)` | `GET /v1/threads`, `GET /v1/threads/{id}`, `PATCH /v1/threads/{id}`, `DELETE /v1/threads/{id}` |

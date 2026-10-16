@@ -53,9 +53,13 @@ without sending anything, use a test key for them: `MAILS_API_KEY=mk_test_... ma
 ```bash
 mails receiving list --json
 mails events tail --type message.received --count 1 --json
+mails receiving wait --from github.com --has code --json | jq -r '.message.codes[0].value'
 ```
 
-The second command waits for one received message, prints it and exits.
+The second command waits for one received message, prints it and exits. The third waits up to
+30 seconds (`--timeout`, at most 50) for a sign-up code from GitHub and prints the code. Add
+`--to` with the address the agent signed up with, such as a plus address
+(`--to support.acme+github@in.mails.ai`), to wait only for mail sent there.
 
 ## Useful commands
 
