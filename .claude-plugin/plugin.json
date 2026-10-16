@@ -1,5 +1,6 @@
 {
   "name": "mails",
+  "displayName": "mails.ai",
   "description": "Email for AI agents: send, receive and reply through mails.ai, act on inbound mail safely, and keep sending within the rules.",
   "author": {
     "name": "the mails.ai team",
@@ -7,7 +8,10 @@
     "url": "https://mails.ai"
   },
   "homepage": "https://mails.ai/docs",
+  "documentationUrl": "https://mails.ai/docs/agent-skills",
+  "supportUrl": "https://mails.ai/contact",
   "privacyPolicyUrl": "https://mails.ai/privacy",
+  "termsOfServiceUrl": "https://mails.ai/terms",
   "repository": "https://github.com/mailsai/skills",
   "license": "MIT",
   "keywords": [
